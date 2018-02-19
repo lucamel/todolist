@@ -1,8 +1,8 @@
-import unittest
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome('./venv/selenium/chromedriver')
@@ -18,7 +18,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_starting_a_new_todo_list(self):
         # User want use a to-do lists app.
         # He goes to the Home Page
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
 
         # He notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
