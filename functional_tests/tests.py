@@ -1,6 +1,7 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
 import time
 
 MAX_WAIT = 10
@@ -79,8 +80,8 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser = webdriver.Chrome('./venv/selenium/chromedriver')
 
         # User 2 visits the Home Page and doesn't see User 1 list
-        self.browser.get('/')
-        page_text = self.browser.find_element_by_tag_name('body')
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
 
@@ -96,6 +97,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(user2_list_url, user1_list_url)
 
         # Again, no trace of User 1 list
-        page_text = self.browser.find_element_by_tag_name('body')
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
