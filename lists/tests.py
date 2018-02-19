@@ -6,6 +6,7 @@ from django.test import TestCase
 from lists.models import Item
 from lists.views import home_page
 
+
 class HomePageTest(TestCase):
 
     def test_home_page_is_about_todo_lists(self):
