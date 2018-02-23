@@ -9,3 +9,4 @@ pytz==2018.3
 selenium==3.9.0
 six==1.11.0
 wrapt==1.10.11
+gunicorn==19.7.1
