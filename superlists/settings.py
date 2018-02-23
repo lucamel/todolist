@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'glh8ldxjoxx&x#**pjlgykic3wyfs_s#24&q#y2qe_u3_+%4xh'
+from .secret_key import SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -134,5 +134,3 @@ WEBPACK_LOADER ={
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
-
-from .secret_key import SECRET_KEY
