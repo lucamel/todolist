@@ -14,7 +14,7 @@ module.exports = {
     vendor: ['jquery', 'bootstrap', 'popper.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'assets'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[chunkhash].js',
   },
 
