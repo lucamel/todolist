@@ -1,5 +1,6 @@
-*.pyc
-db.sqlite3
+.DS_Store
 venv
 node_modules
+*.pyc
 .vscode
+__pycache__
