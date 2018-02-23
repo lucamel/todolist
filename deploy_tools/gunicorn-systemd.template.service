@@ -1,0 +1,11 @@
+[Unit]
+Description=Gunicorn server for staging-todolist
+
+[Service]
+Restart=on-failure  
+User=ubuntu  
+WorkingDirectory=/home/ubuntu/sites/staging-todolist/source  
+ExecStart=/home/ubuntu/sites/staging-todolist/virtualenv/bin/gunicorn --bind unix:/tmp/staging-todolist.socket superlists.wsgi:application  
+
+[Install]
+WantedBy=multi-user.target
