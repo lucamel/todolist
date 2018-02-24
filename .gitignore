@@ -1,7 +1,11 @@
 .DS_Store
 venv
+virtualenv
 node_modules
 *.pyc
 .vscode
 __pycache__
 secret_key.py
+static
+dist
+resources

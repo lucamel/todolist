@@ -8,7 +8,7 @@ REPO_URL = 'https://github.com/lucamel/todolist.git'
 def deploy(folder=''):
     if not folder:
         folder = env.host
-        
+
     site_folder = f'/home/{env.user}/sites/{folder}'
     source_folder = site_folder + '/source'
     _create_directory_structure_if_necessary(site_folder)
@@ -17,6 +17,15 @@ def deploy(folder=''):
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
+
+    if(input("Is first deploy? [Y|n] ") == "Y"):
+        print('\n***** \n\nConfiguring nginx virtualhost and gunicorn ... \n\n*****\n\n')
+        _set_nginx_virtualhost(source_folder, folder, env.host)
+        _set_gunicorn(source_folder, folder)
+    
+    print('\n##### \n\nDeploy completed!! \n\n#####n\n\n')
+    if(input("Do you want to restart server and enable new service? [Y|n] ") == "Y"):   
+        _restart_server(folder)
 
 
 def _create_directory_structure_if_necessary(site_folder):
@@ -37,6 +46,10 @@ def _update_settings(source_folder, site_name):
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
         f'ALLOWED_HOSTS = ["{site_name}"]'
+    )
+    sed(settings_path,
+        'os.path.join(BASE_DIR, "dist")',
+        f'os.path.join(BASE_DIR, "assets")'
     )
     secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
@@ -61,3 +74,15 @@ def _update_database(source_folder):
     run(f'cd {source_folder}'
     ' && ../virtualenv/bin/python manage.py migrate --noinput'
     )
+
+def _set_nginx_virtualhost(source_folder, folder, site_name):
+    run(f'sed "s/SITENAME/{site_name}/g" {source_folder}/deploy_tools/nginx.template.conf')
+    run(f'sed "s/FOLDERNAME/{folder}/g" {source_folder}/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/{folder}')
+    run(f'sudo ln -s ../sites-available/{folder} /etc/nginx/sites-enabled/{folder}')
+
+def _set_gunicorn(source_folder, folder):
+    run(f'sed "s/FOLDERNAME/{folder}/g" {source_folder}/deploy_tools/gunicorn-systemd.template.service | sudo tee /etc/systemd/system/gunicorn-{folder}.service')
+
+def _restart_server(folder):
+    run('sudo systemctl daemon-reload && sudo systemctl reload nginx')
+    run(f'sudo systemctl enable gunicorn-{folder} && sudo systemctl start gunicorn-{folder}')

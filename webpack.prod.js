@@ -4,11 +4,17 @@ var path = require('path');
 var glob = require('glob');
 let UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 let PurifyCSSPlugin = require('purifycss-webpack');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
 let common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-    plugins: [
+  output: {
+    path: path.resolve(__dirname, 'assets'),
+    filename: 'js/[name].[chunkhash].js',
+  },
+  plugins: [
     new UglifyJSPlugin(),
+    new CleanWebpackPlugin('assets'),
     new webpack.LoaderOptionsPlugin({
         minimize: true,
       }),
