@@ -47,6 +47,10 @@ def _update_settings(source_folder, site_name):
         'ALLOWED_HOSTS =.+$',
         f'ALLOWED_HOSTS = ["{site_name}"]'
     )
+    sed(settings_path,
+        'webpack-stats.dev.json',
+        'webpack-stats.prod.json'
+    )
     secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'

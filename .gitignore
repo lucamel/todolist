@@ -10,3 +10,9 @@ staticfiles_dirs.py
 static
 dist/
 resources
+webpack-stats.dev.json
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+package.json
+.babelrc
