@@ -55,7 +55,7 @@ def _update_settings(source_folder, site_name):
     append(settings_path, '\nfrom .secret_key import SECRET_KEY')
     staticfiles_dirs_file = source_folder + '/superlists/staticfiles_dirs.py'
     if not exists(staticfiles_dirs_file):
-        append(secret_key_file, f'DIR = "assets"')
+        append(staticfiles_dirs_file, f'DIR = "assets"')
 
 def _update_virtualenv(source_folder):
     virtualenv_folder = source_folder + '/../virtualenv'
