@@ -47,16 +47,15 @@ def _update_settings(source_folder, site_name):
         'ALLOWED_HOSTS =.+$',
         f'ALLOWED_HOSTS = ["{site_name}"]'
     )
-    sed(settings_path,
-        'os.path.join(BASE_DIR, "dist")',
-        f'os.path.join(BASE_DIR, "assets")'
-    )
     secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
         append(secret_key_file, f'SECRET_KEY = "{key}"')
     append(settings_path, '\nfrom .secret_key import SECRET_KEY')
+    staticfiles_dirs_file = source_folder + '/superlists/staticfiles_dirs.py'
+    if not exists(staticfiles_dirs_file):
+        append(secret_key_file, f'DIR = "assets"')
 
 def _update_virtualenv(source_folder):
     virtualenv_folder = source_folder + '/../virtualenv'

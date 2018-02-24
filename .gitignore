@@ -6,6 +6,7 @@ node_modules
 .vscode
 __pycache__
 secret_key.py
+staticfiles_dirs.py
 static
 dist/
 resources
