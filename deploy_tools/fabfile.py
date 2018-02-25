@@ -23,7 +23,7 @@ def deploy(folder=''):
         _set_nginx_virtualhost(source_folder, folder, env.host)
         _set_gunicorn(source_folder, folder)
     
-    print('\n##### \n\nDeploy completed!! \n\n#####n\n\n')
+    print('\n===== \n\nDeploy completed!! \n\n===== \n\n')
     if(input("Do you want to restart server and enable new service? [Y|n] ") == "Y"):   
         _restart_server(folder)
 
@@ -46,10 +46,6 @@ def _update_settings(source_folder, site_name):
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
         f'ALLOWED_HOSTS = ["{site_name}"]'
-    )
-    sed(settings_path,
-        'webpack-stats.dev.json',
-        'webpack-stats.prod.json'
     )
     secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
