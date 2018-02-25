@@ -80,7 +80,7 @@ def _update_database(source_folder):
 
 def _set_nginx_virtualhost(source_folder, folder, site_name):
     run(f'sed "s/SITENAME/{site_name}/g" {source_folder}/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/{folder}')
-    run(f'sed "s/FOLDERNAME/{folder}/g" {source_folder}/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/{folder}')
+    run(f'sed "s/FOLDERNAME/{folder}/g" /etc/nginx/sites-available/{folder} | sudo tee /etc/nginx/sites-available/{folder}')
     run(f'sudo ln -s ../sites-available/{folder} /etc/nginx/sites-enabled/{folder}')
 
 def _set_gunicorn(source_folder, folder):
