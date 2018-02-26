@@ -55,7 +55,7 @@ class NewVisitorTest(FunctionalTest):
         # User 2 come along the site.
         ## We use a new browser session
         self.browser.quit()
-        self.browser = webdriver.Chrome('./venv/selenium/chromedriver')
+        self.browser = webdriver.Chrome('./virtualenv/selenium/chromedriver')
 
         # User 2 visits the Home Page and doesn't see User 1 list
         self.browser.get(self.live_server_url)
