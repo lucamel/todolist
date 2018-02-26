@@ -8,7 +8,7 @@
             {% csrf_token %}
             {{ form.text }}
             {% if error %}
-            <div class="invalid-feedback">
+            <div class="has-error">
                 {{ error }}
             </div>
             {% endif %}
