@@ -7,9 +7,9 @@
         <form method="POST" action="{% url 'view_list' list.id %}">
             {% csrf_token %}
             {{ form.text }}
-            {% if error %}
+            {% if form.errors %}
             <div class="has-error">
-                {{ error }}
+                {{ form.text.errors }}
             </div>
             {% endif %}
         </form>

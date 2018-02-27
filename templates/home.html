@@ -4,12 +4,12 @@
     <h1 class="display-4 mb-4">Start a new To-Do List</h1>
     <div class="row mb-5">
         <div class="col-md-12">
-            <form method="POST" novalidate action="{% url 'new_list' %}">
+            <form method="POST" action="{% url 'new_list' %}">
                 {% csrf_token %}
                 {{ form.text }}
-                {% if error %}
+                {% if form.errors %}
                 <div class="has-error">
-                    {{ error }}
+                    {{ form.text.errors }}
                 </div>
                 {% endif %}
             </form>
