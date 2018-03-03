@@ -22,10 +22,12 @@ def deploy(folder=''):
         print('\n***** \n\nConfiguring nginx virtualhost and gunicorn ... \n\n*****\n\n')
         _set_nginx_virtualhost(source_folder, folder, env.host)
         _set_gunicorn(source_folder, folder)
-    
-    print('\n===== \n\nDeploy completed!! \n\n===== \n\n')
-    if(input("Do you want to restart server and enable new service? [Y|n] ") == "Y"):   
         _restart_server(folder)
+    else:
+        if(input("Do you want to restart gunicorn? [Y|n] ") == "Y"):   
+            _restart_gunicorn(folder)
+
+    print('\n===== \n\nDeploy completed!! \n\n===== \n\n')
 
 
 def _create_directory_structure_if_necessary(site_folder):
@@ -85,3 +87,6 @@ def _set_gunicorn(source_folder, folder):
 def _restart_server(folder):
     run('sudo systemctl daemon-reload && sudo systemctl reload nginx')
     run(f'sudo systemctl enable gunicorn-{folder} && sudo systemctl start gunicorn-{folder}')
+
+def _restart_gunicorn(folder):
+    run(f'sudo systemctl restart gunicorn-{folder}')
