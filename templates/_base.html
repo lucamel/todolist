@@ -24,10 +24,35 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
         </ul>
+        {% if user.email %}
+        <span class="navbar-text mr-sm-2">
+          Welcome, {{ user.email }}
+        </span>
+        <a class="btn btn-sm btn-primary" id="id_logout" href="#">Logout</a>
+        {% else %}
+        <form class="form-inline my-2 my-lg-0" action="{% url 'send_login_email' %}" method="POST">
+          {% csrf_token %}
+          <input class="form-control mr-sm-2" name="email" type="text" placeholder="Enter email to log in " aria-label="Enter email to log in">
+          <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" type="submit">Login</button>
+        </form>
+        {% endif %}
       </div>
     </nav>
 
     <main role="main" class="container mt-6">
+        {% if messages %}
+        <div class="row">
+          <div class="col">
+            {% for message in messages %}
+              {% if message.level_tag == 'success' %}
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+              {% else %}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
         {% block content %}
         {% endblock%}
     </main><!-- /.container -->
