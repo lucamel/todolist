@@ -28,7 +28,7 @@
         <span class="navbar-text mr-sm-2">
           Welcome, {{ user.email }}
         </span>
-        <a class="btn btn-sm btn-primary" id="id_logout" href="#">Logout</a>
+        <a class="btn btn-sm btn-primary" id="id_logout" href="{% url 'logout' %}">Logout</a>
         {% else %}
         <form class="form-inline my-2 my-lg-0" action="{% url 'send_login_email' %}" method="POST">
           {% csrf_token %}
