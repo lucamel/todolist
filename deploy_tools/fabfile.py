@@ -14,7 +14,7 @@ def deploy(folder=''):
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
     _update_virtualenv(source_folder)
-    _create_or_update_dotenv(env.host)
+    _create_or_update_dotenv(source_folder, env.host)
     _update_static_files(source_folder)
     _update_database(source_folder)
 
@@ -48,7 +48,7 @@ def _update_virtualenv(source_folder):
         run(f'python3.6 -m venv {virtualenv_folder}')
     run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')
 
-def _create_or_update_dotenv(site_name):
+def _create_or_update_dotenv(source_folder, site_name):
     run(f'cd {source_folder}') 
     append('.env', f'SITENAME={env.host}')
     append('.env', f'DJANGO_DEBUG=False')
