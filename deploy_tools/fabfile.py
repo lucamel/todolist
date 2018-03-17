@@ -49,16 +49,15 @@ def _update_virtualenv(source_folder):
     run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')
 
 def _create_or_update_dotenv(source_folder, site_name):
-    run(f'cd {source_folder}') 
-    append('.env', f'SITENAME={env.host}')
-    append('.env', f'DJANGO_DEBUG=False')
-    append('.env', f'DJANGO_STATIC_FILES_DIR="assets"')
-    append('.env', f'DJANGO_ALLOWED_HOSTS=[{site_name}]')
-    append('.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
-    append('.env', f'EMAIL_HOST="smtp.mailtrap.io"')
-    append('.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
-    append('.env', f'EMAIL_PORT="2525"')
-    append('.env', f'EMAIL_HOST_PASSWORD=4a5e23299267e7')
+    append(f'{source_folder}/.env', f'SITENAME={env.host}')
+    append(f'{source_folder}/.env', f'DJANGO_DEBUG=False')
+    append(f'{source_folder}/.env', f'DJANGO_STATIC_FILES_DIR="assets"')
+    append(f'{source_folder}/.env', f'DJANGO_ALLOWED_HOSTS=[{site_name}]')
+    append(f'{source_folder}/.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
+    append(f'{source_folder}/.env', f'EMAIL_HOST="smtp.mailtrap.io"')
+    append(f'{source_folder}/.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
+    append(f'{source_folder}/.env', f'EMAIL_PORT="2525"')
+    append(f'{source_folder}/.env', f'EMAIL_HOST_PASSWORD=4a5e23299267e7')
     current_contents = run('cat .env')  
     if 'DJANGO_SECRET_KEY' not in current_contents:  
         new_secret = ''.join(random.SystemRandom().choices(  
