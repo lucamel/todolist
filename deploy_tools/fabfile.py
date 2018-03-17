@@ -52,18 +52,18 @@ def _create_or_update_dotenv(source_folder, site_name):
     append(f'{source_folder}/.env', f'SITENAME={env.host}')
     append(f'{source_folder}/.env', f'DJANGO_DEBUG=False')
     append(f'{source_folder}/.env', f'DJANGO_STATIC_FILES_DIR="assets"')
-    append(f'{source_folder}/.env', f'DJANGO_ALLOWED_HOSTS=[{site_name}]')
+    append(f'{source_folder}/.env', f'DJANGO_ALLOWED_HOSTS=["{site_name}"]')
     append(f'{source_folder}/.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
     append(f'{source_folder}/.env', f'EMAIL_HOST="smtp.mailtrap.io"')
     append(f'{source_folder}/.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
     append(f'{source_folder}/.env', f'EMAIL_PORT="2525"')
     append(f'{source_folder}/.env', f'EMAIL_HOST_PASSWORD=4a5e23299267e7')
-    current_contents = run('cat .env')  
+    current_contents = run(f'cat {source_folder}/.env')  
     if 'DJANGO_SECRET_KEY' not in current_contents:  
         new_secret = ''.join(random.SystemRandom().choices(  
             'abcdefghijklmnopqrstuvwxyz0123456789', k=50
         ))
-        append('.env', f'DJANGO_SECRET_KEY={new_secret}')
+        append(f'{source_folder}/.env', f'DJANGO_SECRET_KEY={new_secret}')
 
 def _update_static_files(source_folder):
     run(
