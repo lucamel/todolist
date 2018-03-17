@@ -10,27 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 import environ
-root = environ.Path(__file__) - 3 # three folder back (/a/b/c/ - 3 = /)
+root = environ.Path(__file__) - 2 # three folder back (/a/b/c/ - 3 = /)
 env = environ.Env(DEBUG=(bool, False),) # set default values and casting
-environ.Env.read_env() # reading .env file
+environ.Env.read_env(env_file=root('.env')) # reading .env file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_ROOT = root()
 
-public_root = root.path('superlists/')
+public_root = root
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DJANGO_DEBUG')
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS', default=[])
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -135,7 +135,7 @@ STATIC_ROOT = public_root('static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    public_root(env('DJANGO_STATIC_FILES_DIR')),
+    public_root(env('STATIC_FILES_DIR')),
 ]
 
 WEBPACK_LOADER ={
