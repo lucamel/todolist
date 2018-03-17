@@ -52,7 +52,7 @@ def _create_or_update_dotenv(source_folder, site_name):
     append(f'{source_folder}/.env', f'SITENAME={env.host}')
     append(f'{source_folder}/.env', f'DEBUG=False')
     append(f'{source_folder}/.env', f'STATIC_FILES_DIR="assets"')
-    append(f'{source_folder}/.env', f'ALLOWED_HOSTS=["{site_name}"]')
+    append(f'{source_folder}/.env', f'ALLOWED_HOSTS="{site_name}"')
     append(f'{source_folder}/.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
     append(f'{source_folder}/.env', f'EMAIL_HOST="smtp.mailtrap.io"')
     append(f'{source_folder}/.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
