@@ -49,7 +49,7 @@ def _update_virtualenv(source_folder):
     run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')
 
 def _create_or_update_dotenv(site_name):
-    run(f'cd {source_folder} 
+    run(f'cd {source_folder}') 
     append('.env', f'SITENAME={env.host}')
     append('.env', f'DJANGO_DEBUG=False')
     append('.env', f'DJANGO_STATIC_FILES_DIR="assets"')
