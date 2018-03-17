@@ -13,8 +13,8 @@ def deploy(folder=''):
     source_folder = site_folder + '/source'
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
-    _update_settings(source_folder, env.host)
     _update_virtualenv(source_folder)
+    _create_or_update_dotenv(env.host)
     _update_static_files(source_folder)
     _update_database(source_folder)
 
@@ -42,28 +42,28 @@ def _get_latest_source(source_folder):
     current_commit = local("git log -n 1 --format=%H", capture=True)
     run(f'cd {source_folder} && git reset --hard {current_commit}')
 
-def _update_settings(source_folder, site_name):
-    settings_path = source_folder + '/superlists/settings.py'
-    sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path,
-        'ALLOWED_HOSTS =.+$',
-        f'ALLOWED_HOSTS = ["{site_name}"]'
-    )
-    secret_key_file = source_folder + '/superlists/secret_key.py'
-    if not exists(secret_key_file):
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
-        append(secret_key_file, f'SECRET_KEY = "{key}"')
-    append(settings_path, '\nfrom .secret_key import SECRET_KEY')
-    staticfiles_dirs_file = source_folder + '/superlists/staticfiles_dirs.py'
-    if not exists(staticfiles_dirs_file):
-        append(staticfiles_dirs_file, f'DIR = "assets"')
-
 def _update_virtualenv(source_folder):
     virtualenv_folder = source_folder + '/../virtualenv'
     if not exists(virtualenv_folder + '/bin/pip'):
         run(f'python3.6 -m venv {virtualenv_folder}')
     run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')
+
+def _create_or_update_dotenv(site_name): 
+    append('.env', f'SITENAME={env.host}')
+    append('.env', f'DJANGO_DEBUG=False')
+    append('.env', f'DJANGO_STATIC_FILES_DIR="assets"')
+    append('.env', f'DJANGO_ALLOWED_HOSTS=[{site_name}]')
+    append('.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
+    append('.env', f'EMAIL_HOST="smtp.mailtrap.io"')
+    append('.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
+    append('.env', f'EMAIL_PORT="2525"')
+    append('.env', f'EMAIL_HOST_PASSWORD=4a5e23299267e7')
+    current_contents = run('cat .env')  
+    if 'DJANGO_SECRET_KEY' not in current_contents:  
+        new_secret = ''.join(random.SystemRandom().choices(  
+            'abcdefghijklmnopqrstuvwxyz0123456789', k=50
+        ))
+        append('.env', f'DJANGO_SECRET_KEY={new_secret}')
 
 def _update_static_files(source_folder):
     run(
