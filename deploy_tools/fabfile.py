@@ -54,10 +54,11 @@ def _create_or_update_dotenv(source_folder, site_name):
     append(f'{source_folder}/.env', f'STATIC_FILES_DIR="assets"')
     append(f'{source_folder}/.env', f'ALLOWED_HOSTS="{site_name}"')
     append(f'{source_folder}/.env', f'WEBPACK_STATS_FILE="webpack-stats-prod.json"')
-    append(f'{source_folder}/.env', f'EMAIL_HOST="smtp.mailtrap.io"')
-    append(f'{source_folder}/.env', f'EMAIL_HOST_USER="3fdb140d8ed5d7"')
-    append(f'{source_folder}/.env', f'EMAIL_PORT="2525"')
-    append(f'{source_folder}/.env', f'EMAIL_HOST_PASSWORD=4a5e23299267e7')
+    append(f'{source_folder}/.env', f'EMAIL_BACKEND="django_ses.SESBackend"')
+    append(f'{source_folder}/.env', f'AWS_SES_REGION_NAME="eu-west-1"')
+    append(f'{source_folder}/.env', f'AWS_SES_REGION_ENDPOINT="email.eu-west-1.amazonaws.com"')
+    append(f'{source_folder}/.env', f'AWS_SES_ACCESS_KEY_ID="AKIAIA2UIIX5JSN6LMKQ"')
+    append(f'{source_folder}/.env', f'AWS_SES_SECRET_ACCESS_KEY="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"')
     current_contents = run(f'cat {source_folder}/.env')  
     if 'SECRET_KEY' not in current_contents:  
         new_secret = ''.join(random.SystemRandom().choices(  

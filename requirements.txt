@@ -1,14 +1,17 @@
 asn1crypto==0.24.0
 astroid==1.6.1
 bcrypt==3.1.4
+boto==2.48.0
 cffi==1.11.4
 cryptography==2.1.4
 Django==1.11.10
 django-environ==0.4.4
+django-ses==0.8.5
 django-smtp-ssl==1.0
 django-webpack-loader==0.5.0
 django-widget-tweaks==1.4.1
 Fabric3==1.14.post1
+future==0.16.0
 gunicorn==19.7.1
 idna==2.6
 isort==4.3.4
